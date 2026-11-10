@@ -1,0 +1,11 @@
+import type {CloudRecord,LearningSignal,MissionSnapshot} from "./cloud/index.mjs";
+import type {MemoryDecision} from "./memory-review.mjs";
+import type {AgentProposal} from "./agent-planner.mjs";
+import type {PrivateProfile,PrivateAgentContext} from "./agent-council.mjs";
+import type {PrivateVaultStore} from "./private-vault.mjs";
+import type {PublicResearchCapsule} from "./public-research.mjs";
+export type PrivateWorkspaceState={schema:"saathi.private-workspace";version:1;ownerId:string;profile:PrivateProfile;records:CloudRecord[];signals:Array<{payload:LearningSignal;createdAt:string}>;decisions:Array<{payload:MemoryDecision;createdAt:string}>;proposals:AgentProposal[]};
+export function validatePrivateWorkspace(raw:unknown):PrivateWorkspaceState;
+export function emptyPrivateWorkspace():PrivateWorkspaceState;
+export type PrivateWorkspace={getState():PrivateWorkspaceState;subscribe(listener:()=>void):()=>void;lock():void;setProfile(profile:PrivateProfile):Promise<void>;create(mission:MissionSnapshot):Promise<CloudRecord>;save(mission:MissionSnapshot,revision:number):Promise<CloudRecord>;importResearch(capsule:PublicResearchCapsule,missionId:string,revision:number):Promise<CloudRecord>;list():Promise<Pick<PrivateWorkspaceState,"signals"|"decisions">>;watch(listener:()=>void):()=>void;appendSignal(signal:LearningSignal):Promise<void>;appendDecision(decision:MemoryDecision):Promise<void>;plan(id:string,revision:number):Promise<PrivateAgentContext>;apply(proposal:AgentProposal):Promise<string>;reject(proposal:AgentProposal):Promise<void>};
+export function createPrivateWorkspace(vault:PrivateVaultStore,initial:unknown):PrivateWorkspace;

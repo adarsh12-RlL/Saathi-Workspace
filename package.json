@@ -1,0 +1,20 @@
+{
+  "name": "saathi-workspace-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A local prototype for a personal mission workspace",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.3"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8"
+  }
+}

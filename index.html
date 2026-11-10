@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183a33">
+  <meta name="description" content="Carry one mission from an idea to a useful result, then reuse its workflow.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <title>SAATHI · Mission Workspace</title>
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <div class="prototype-bar">Local prototype <span>AI execution and automatic device sync are planned features.</span></div>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="SAATHI home"><img src="/icon.svg" alt="" width="32" height="32"><span>SAATHI<small>MISSION WORKSPACE</small></span></a>
+      <p class="sidebar-label">Your missions</p>
+      <nav id="missions" aria-label="Missions"></nav>
+      <button id="new-mission" class="button primary full" type="button">+ New mission</button>
+      <section class="templates-section"><p class="sidebar-label">Reusable workflows</p><div id="templates"></div></section>
+      <div class="sidebar-footer"><strong>One goal. One place.</strong><p>Keep the plan, decisions, results and next step together.</p></div>
+    </aside>
+    <main>
+      <header class="topline"><span>IDEA → MISSION → WORKFLOW → TOOL</span><span id="storage-status" role="status">Saved on this browser</span></header>
+      <div class="heading-row"><div><p class="eyebrow">YOUR NEXT USEFUL THING</p><h1 id="mission-title"></h1></div><button id="export" class="button" type="button">Export passport</button></div>
+      <div class="device-row"><span>Layout preview</span><div class="segmented" role="group" aria-label="Device layout preview"><button data-device="laptop" type="button" aria-pressed="true">Laptop</button><button data-device="tablet" type="button" aria-pressed="false">Tablet</button><button data-device="phone" type="button" aria-pressed="false">Phone</button></div><label class="import-label button">Import passport<input id="import" type="file" accept=".json,application/json"></label></div>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <div id="workspace">
+        <section class="passport"><div class="section-heading"><h2>Mission passport</h2><label class="stage-label" for="stage">Stage <select id="stage"><option value="captured">Captured</option><option value="planned">Planned</option><option value="working">Working</option><option value="complete">Complete</option></select></label></div><form id="mission-form"><label for="goal">What do you want to achieve?</label><textarea id="goal" rows="3" maxlength="2000"></textarea><label for="notes">Context & notes</label><textarea id="notes" rows="4" maxlength="12000"></textarea><label for="next-step">Next step when you return</label><input id="next-step" maxlength="400"><div class="save-row"><button class="button primary" type="submit">Save mission</button><span id="last-saved"></span></div></form></section>
+        <section class="task-section"><div class="section-heading"><h2>Make progress</h2><span id="task-progress"></span></div><ul id="tasks" class="tasks"></ul><form id="task-form" class="inline-form"><label class="sr-only" for="task-input">New task</label><input id="task-input" placeholder="Add the next small task…" maxlength="300" required><button class="button" type="submit">Add task</button></form></section>
+        <section class="decision-section"><div class="section-heading"><h2>Remember the why</h2><span class="section-hint">Decisions travel with the work</span></div><ol id="decisions" class="decisions"></ol><form id="decision-form" class="inline-form"><label class="sr-only" for="decision-input">New decision</label><input id="decision-input" placeholder="What did you decide, and why?" maxlength="1000" required><button class="button" type="submit">Record</button></form></section>
+        <section class="mini-app-section"><div class="section-heading"><div><p class="eyebrow">YOUR WORKSPACE CAN GROW</p><h2>Mission mini-apps</h2></div><button id="new-mini-app" class="button primary" type="button">+ Add mini-app</button></div><p class="mini-description">Build from a template or paste a definition. AI prompt generation is not connected yet.</p><div id="mini-apps"></div></section>
+        <section class="artifact-section"><div class="section-heading"><h2>Useful results</h2><button id="new-artifact" class="text-button" type="button">+ Add result</button></div><div id="artifacts"></div></section>
+        <section class="reuse-section"><div><p class="eyebrow">DON’T START FROM ZERO NEXT TIME</p><h2>Turn completed work into a workflow</h2><p>Reuse the steps, context and mini-app definitions. New runs start with empty app data.</p></div><button id="save-template" class="button primary" type="button">Save workflow template</button></section>
+        <section class="handoff-section"><span class="handoff-marker" aria-hidden="true">↗</span><div><h2>Continue with the context intact</h2><p id="handoff-text"></p><small>Export/import makes a manual copy. This prototype does not synchronize browsers or execute actions on another device.</small></div></section>
+      </div>
+    </main>
+  </div>
+  <dialog id="mission-dialog"><form id="create-form"><p class="eyebrow">START WITH AN INTENT</p><h2>Create a mission</h2><label for="new-title">Mission name</label><input id="new-title" maxlength="120" required placeholder="Learn a skill, build a tool, finish a project…"><label for="new-goal">What would a good result look like?</label><textarea id="new-goal" rows="3" maxlength="2000" required></textarea><div class="dialog-actions"><button class="button" type="button" data-close="mission-dialog">Cancel</button><button class="button primary" type="submit">Create mission</button></div></form></dialog>
+  <dialog id="artifact-dialog"><form id="artifact-form"><p class="eyebrow">KEEP THE RESULT WITH THE MISSION</p><h2>Add a result</h2><label for="artifact-title">Result name</label><input id="artifact-title" maxlength="150" required><label for="artifact-kind">Type</label><select id="artifact-kind"><option>Document</option><option>Code</option><option>Study material</option><option>Data</option></select><label for="artifact-content">Content</label><textarea id="artifact-content" rows="7" maxlength="20000" required></textarea><div class="dialog-actions"><button class="button" type="button" data-close="artifact-dialog">Cancel</button><button class="button primary" type="submit">Save result</button></div></form></dialog>
+  <dialog id="mini-dialog" class="studio-dialog" aria-labelledby="mini-dialog-title"><p class="eyebrow">DYNAMIC MINI-APP STUDIO</p><h2 id="mini-dialog-title">Add a tool to your mission</h2><div class="studio-grid"><section><label for="mini-preset">Start with a template</label><select id="mini-preset"><option value="tracker">Food & calorie tracker</option><option value="quiz">JavaScript quiz</option><option value="invoice">Invoice calculator</option></select><details class="definition-details"><summary>Edit the app definition</summary><label class="sr-only" for="mini-definition">Mini-app JSON definition</label><textarea id="mini-definition" rows="14" maxlength="100000" spellcheck="false"></textarea></details><button id="mini-preview-button" class="button" type="button">Preview app</button><p id="mini-preview-status" class="mini-preview-status" role="status"></p></section><section id="mini-preview" aria-label="Mini-app preview"></section></div><div class="dialog-actions"><button class="button" type="button" data-close="mini-dialog">Cancel</button><button id="mini-install" class="button primary" type="button" disabled>Add to mission</button></div></dialog>
+</body>
+</html>
